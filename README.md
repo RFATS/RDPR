@@ -79,8 +79,8 @@ Since sample proportion is MLE of population proportion, denoting $\hat{\cdot}$ 
 
 $$
 \begin{aligned}
-\widehat{P(Z_1 = 1)} &= \widehat{p + q - pq} = S_1 / N_1 \\
-\widehat{P(Z_2 = 1)} &= \widehat{p / (p + q - pq)} = S_2 / N_2
+\hat{P(Z_1 = 1)} &= \hat{p + q - pq} = S_1 / N_1 \\
+\hat{P(Z_2 = 1)} &= \hat{p / (p + q - pq)} = S_2 / N_2
 \end{aligned}
 $$
 
