@@ -24,11 +24,11 @@
 
 ### 재료: 테스트 결과 데이터
 - Prime(1st)-Test Result of each product
-    - $z_1 = (z^{n}_1)_{n = 1}^{N_1} \in \{0, 1\}^{N_1}$
+    - $z_1 = (z_1^1, \ldots, z_1^{N_1}) \in \lbrace 0, 1 \rbrace^{N_1}$
     - Total Inputs: $N_1$
     - Total Fails: $S_1 = \sum_{n=1}^{N_1} z^n_1 \leq N_1$
 - Re(2nd)-test Result of each product
-    - $z_2 = (z^{n}_2)_{n = 1}^{N_2} \in \{0, 1\}^{N_2}$
+    - $z_2 = (z_2^1, \ldots, z_2^{N_2}) \in \lbrace 0, 1 \rbrace^{N_2}$
     - Total Inputs: $N_2 \leq S_1$
     - Total Fails: $S_2 = \sum_{n=1}^{N_2} z^n_2 \leq N_2$
 
@@ -76,8 +76,8 @@ $$
 
 ### Maximum Likelihood Estimator (MLE)
 Since sample proportion is MLE of population proportion, denoting $\hat{\cdot}$ as MLE of $\cdot$,
-- $\displaystyle \widehat{P(Z_1 = 1)} = \widehat{p + q - pq} = S_1 / N_1$
-- $\displaystyle \widehat{P(Z_2 = 1)} = \widehat{p / (p + q - pq)} = S_2 / N_2$.
+- $\widehat{P(Z_1 = 1)} = \widehat{p + q - pq} = S_1 / N_1$
+- $\widehat{P(Z_2 = 1)} = \widehat{p / (p + q - pq)} = S_2 / N_2$.
 
 Using invariance property of MLE, which states that $\widehat{g(\theta)} = g(\hat{\theta})$,
 
