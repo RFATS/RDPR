@@ -24,11 +24,11 @@
 
 ### 재료: 테스트 결과 데이터
 - Prime(1st)-Test Result of each product
-    - $z_1 = \left( z^{n}_1 \right)_{n = 1}^{N_1} \in \{0, 1\}^{N_1}$
+    - $z_1 = (z^{n}_1)_{n = 1}^{N_1} \in \{0, 1\}^{N_1}$
     - Total Inputs: $N_1$
     - Total Fails: $S_1 = \sum_{n=1}^{N_1} z^n_1 \leq N_1$
 - Re(2nd)-test Result of each product
-    - $z_2 = \left( z^{n}_2 \right)_{n = 1}^{N_2} \in \{0, 1\}^{N_2}$
+    - $z_2 = (z^{n}_2)_{n = 1}^{N_2} \in \{0, 1\}^{N_2}$
     - Total Inputs: $N_2 \leq S_1$
     - Total Fails: $S_2 = \sum_{n=1}^{N_2} z^n_2 \leq N_2$
 
@@ -39,6 +39,7 @@
 
 ### Model
 Let $z^n_t$ be an observation of the random variable, where is modeled as
+
 $$
 Z_t = \begin{cases}
     X \lor Y & \text{if } t = 1 \\
@@ -52,13 +53,17 @@ $$
         - ← Retest는 환경성 이슈가 없는 설비에서 진행된다는 가정
 
 Then the probablility of prime test result is
-$$\begin{aligned}
+
+$$
+\begin{aligned}
     P(Z_1 = 1) &= P(X = 1 \text{ or } Y = 1) \\
     &= P(X = 1) + P(Y = 1) - P(X = 1 \text{ and } Y = 1) \\
     &= p + q - pq ,
-\end{aligned}$$
+\end{aligned}
+$$
 
 while that of retest result is
+
 $$
 \begin{aligned}
 P(Z_2 = 1) &= P(X = 1 | Z_1 = 1) \\
@@ -75,6 +80,7 @@ Since sample proportion is MLE of population proportion, denoting $\hat{\cdot}$ 
 - $\displaystyle \widehat{P(Z_2 = 1)} = \widehat{p / (p + q - pq)} = S_2 / N_2$.
 
 Using invariance property of MLE, which states that $\widehat{g(\theta)} = g(\hat{\theta})$,
+
 $$
 \begin{cases}
 \hat{p} + \hat{q} - \hat{p} \hat{q} = S_1 / N_1 \\
@@ -88,6 +94,7 @@ which leads to the following solution:
 
 ### Retest Decision Rule
 Retest only if $\hat{q} > c\hat{p}$, which is equivalent to
+
 $$
 \dfrac{S_1 N_2 - S_1 S_2}{N_1 N_2 - S_1 S_2} \cdot \dfrac{N_1 N_2}{S_1 S_2} > c
 $$
