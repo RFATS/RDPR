@@ -1,5 +1,5 @@
-# Retest Decision Rule
-제품/환경성 불량률을 고려한 Retest 결정 규칙
+# RDPR
+**R**etest **D**ecision Rule derived from **P**rime & **R**e-test Result
 
 
 ## Problem
@@ -15,11 +15,14 @@
     - 이러한 가능성은 제품성 불량 확률 $p$에 비례(한다고 가정)
 
 
-### 문제 정의: Retest를 결정할 통계적 기준 마련
-- 출하 품질 리스크 대비 Retest를 통한 양산 효율 제고가 큰 경우에만 Retest를 시행
-- 즉, $q > cp$ 인 경우에만 Retest 시행
-    - $c$는 현업 관점에서 충분히 큰 상수로 상정
-- 그러나 우리는 **$p$와 $q$가 얼마인지** 모름 → **추정해야**
+### 문제: Retest를 결정할 통계적 기준 마련
+- 현업적 정의
+    - 출하 품질 리스크 대비 Retest를 통한 양산 효율 제고가 큰 경우에만 Retest를 시행
+    - 즉, $q > cp$ 인 경우에만 Retest 시행
+        - $c$는 현업 관점에서 충분히 큰 상수로 상정
+- 통계학적 환원
+    - 그러나 우리는 **$p$와 $q$가 얼마인지** 모름 → **추정**
+    - 추정량의 변동성을 감안해도 **유의하게 $q > cp$ 인지** 판정하고픔 → **검정**
 
 
 ### 재료: 테스트 결과 데이터
@@ -33,11 +36,7 @@
     - Total Fails: $S_2 = \sum_{n=1}^{N_2} z^n_2 \leq N_2$
 
 
-## Solution: **PEFER**
-**P**roduct/**E**nvironment-Induced **F**ailure Probability **E**stimator for **R**etest Decision (Retest 결정을 위한 제품/환경성 불량 확률 추정량)
-
-
-### Model
+## Model
 Let $z^n_t$ be an observation of the random variable, where is modeled as
 
 $$
@@ -74,15 +73,18 @@ P(Z_2 = 1) &= P(X = 1 | Z_1 = 1) \\
 $$
 
 
-### Maximum Likelihood Estimator (MLE)
-Since sample proportion is MLE of population proportion, denoting $\hat{\cdot}$ as MLE of $\cdot$,
+## PEP Estimator
+(**P**roduct/**E**nvironment-Induced Failure **P**robability Estimator)
+
+Since sample proportion is the MLE (Maximum Likelihood Estimator) of population proportion, denoting $\hat{\cdot}$ as the MLE of $\cdot$,
 
 $$
 \begin{aligned}
-\widehat{P(Z_1 = 1)} &= \widehat{p + q - pq} = S_1 / N_1 \\
-\widehat{P(Z_2 = 1)} &= \widehat{p / (p + q - pq)} = S_2 / N_2
+\widehat{P(Z_1 = 1)} &= \widehat{p + q - pq} = S_1 / N_1, \\
+\widehat{P(Z_2 = 1)} &= \widehat{p / (p + q - pq)} = S_2 / N_2.
 \end{aligned}
 $$
+
 
 Using invariance property of MLE, which states that $\widehat{g(\theta)} = g(\hat{\theta})$,
 
@@ -98,9 +100,47 @@ which leads to the following solution:
 - $\hat{q} = \dfrac{S_1 N_2 - S_1 S_2}{N_1 N_2 - S_1 S_2}$
 
 
-### Retest Decision Rule
+### Retest Decision Rule (Naive Ver.)
+(No consideration of estimator's variation)
+
 Retest only if $\hat{q} > c\hat{p}$, which is equivalent to
 
 $$
 \dfrac{S_1 N_2 - S_1 S_2}{N_1 N_2 - S_1 S_2} \cdot \dfrac{N_1 N_2}{S_1 S_2} > c
 $$
+
+
+## PEP Comparison Test
+
+$$
+H_0: q \leq cp \\
+H_1: q > cp
+$$
+
+To build Wald Test, defining $\theta = q - cp$, then
+
+$$
+H_0: \theta \leq 0 \\
+H_1: \theta > 0
+$$
+
+Test statistic:
+
+$$
+T = \dfrac{\hat{\theta}}{SE(\hat{\theta})} \sim N(0, 1)
+$$
+
+Delta Method to derive $SE(\hat{\theta})$:
+
+<!-- Let $g(p, q) = q - cp$, then
+
+$$
+SE(\hat{\theta}) = \sqrt{(\nabla g)^T \Sigma (\nabla g)}
+$$
+
+where $\nabla g = \begin{bmatrix} -c & 1 \end{bmatrix}$ and $\Sigma$ is the covariance matrix of $(\hat{p}, \hat{q})$. -->
+
+
+### Retest Decision Rule (Confident Ver.)
+
+Retest, that is, reject $H_0$ if $T  > N(0, 1)_{1-\alpha}$, where $N(0, 1)_{1-\alpha}$ denotes the $(1-\alpha)$ quantile of $N(0, 1)$.
